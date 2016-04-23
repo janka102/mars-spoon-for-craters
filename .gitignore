@@ -1,0 +1,7 @@
+.DS_Store
+*~
+server/world*/
+logs/
+.metadata/
+bin/
+MarsSpoon.jar
