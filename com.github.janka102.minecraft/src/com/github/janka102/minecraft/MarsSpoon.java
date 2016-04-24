@@ -10,11 +10,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class MarsSpoon extends JavaPlugin {
 	static BufferedImage[][] tiles = new BufferedImage[32][64];
 	
-	public static void loadTile(int imgY, int imgX) {
+	public static void loadTile(int imgZ, int imgX) {
 		try {
-			tiles[imgY][imgX] = ImageIO.read(MarsSpoon.class.getResource("/" + imgY + "-" + imgX + ".png"));
+			tiles[imgZ][imgX] = ImageIO.read(MarsSpoon.class.getResource("/" + imgZ + "-" + imgX + ".png"));
 		} catch (IOException e) {
-			System.out.println("error" + " " + imgY + "-" + imgX + ".png ");
+			System.out.println("error" + " " + imgZ + "-" + imgX + ".png ");
 		}
 	}
     
