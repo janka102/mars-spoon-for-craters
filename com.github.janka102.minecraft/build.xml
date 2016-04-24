@@ -4,6 +4,8 @@
         <jar destfile="../server/plugins/${ant.project.name}.jar">
             <fileset dir="bin"></fileset>
             <fileset file="plugin.yml"></fileset>
+        	<fileset file="lib/7-20.png"></fileset>
+        	<fileset dir="lib/altimeter" includes="*.png" />
         </jar>
     </target>
 </project>
