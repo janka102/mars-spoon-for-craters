@@ -13,14 +13,14 @@ public class MarsChunkGenerator extends ChunkGenerator {
 		ChunkGenerator.ChunkData chunkData = createChunkData(world);
 		
 		if (x < 0) {
-			x = 1024 - x;
+			x += 1024;
 		}
 		if (z < 0) {
-			z = 512 - z;
+			z += 512;
 		}
 		
 		int imgX = (Math.abs(x) / 16) % 64;
-		int imgZ = (Math.abs(z) / 16) % 31;
+		int imgZ = (Math.abs(z) / 16) % 32;
 
 		if (MarsSpoon.tiles[imgZ][imgX] == null) {
 			MarsSpoon.loadTile(imgZ, imgX);
@@ -32,30 +32,16 @@ public class MarsChunkGenerator extends ChunkGenerator {
 
 		int offsetX = Math.abs(x * 16) % 256;
 		int offsetZ = Math.abs(z * 16) % 256;
-		
-		int xAdd = 1;
-		int zAdd = 1;
-		int xExtra = 0;
-		int zExtra = 0;
-
-		if (x < 0) {
-			xAdd = -1;
-			xExtra = 15;
-		}
-
-		if (z < 0) {
-			zAdd = -1;
-			zExtra = 15;
-		}
+		int absZ = imgZ * 256;
 		
 		int height;
 
 		for (int i = 0; i < 16; i++) {
 			for (int j = 0; j < 16; j++) {
-				height = tile.getRaster().getPixel(offsetX + (xExtra + i*xAdd), offsetZ + zExtra + j*zAdd, new int[4])[0];
+				height = tile.getRaster().getPixel(offsetX + i, offsetZ + j, new int[4])[0];
 				chunkData.setRegion(i, 0, j, i + 1, height, j + 1, Material.STAINED_CLAY);
 				
-				if (imgZ < 2 && random.nextBoolean()) {
+				if (imgZ < 2 && random.nextInt(512) > (absZ + offsetZ + j)) {
 					chunkData.setBlock(i, height, j, Material.SNOW);
 				}
 			}
