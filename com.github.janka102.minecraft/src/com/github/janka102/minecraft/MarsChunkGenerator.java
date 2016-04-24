@@ -10,6 +10,15 @@ public class MarsChunkGenerator extends ChunkGenerator {
 	@Override
 	public ChunkGenerator.ChunkData generateChunkData(World world, Random random, int x, int z, ChunkGenerator.BiomeGrid biome) {
 		ChunkGenerator.ChunkData chunkData = createChunkData(world);
+		
+		int imgX = (Math.abs(x) / 256) % 64;
+		int imgY = (Math.abs(y) / 256) % 31;
+		if (MarsSpoon.tiles[imgY][imgX] == null) {
+			MarsSpoon.loadTile(imgY, imgX);
+		}
+		// code needs to be modified to use imgX and imgY.
+		// negative values should "wrap around" to the opposite side of the image
+		
 
 		int offsetX = Math.abs(x * 16) % 256;
 		int offsetZ = Math.abs(z * 16) % 256;

@@ -10,7 +10,15 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class MarsSpoon extends JavaPlugin {
 	
-	static BufferedImage img = null;
+	static BufferedImage tiles = BufferedImage[32][64];
+	
+	public static void loadTile(int imgY, int imgX) {
+		try {
+			tiles[imgY][imgX] = ImageIO.read(new File("images/" + imgY + "-" + imgX + ".png"));
+		} catch (IOException e) {
+			System.out.println("error" + " " + imgY + "-" + imgX + ".png ");
+		}
+	}
 
     // Fired when plugin is first enabled
     @Override
@@ -23,12 +31,6 @@ public class MarsSpoon extends JavaPlugin {
     
     @Override
     public ChunkGenerator getDefaultWorldGenerator(String worldName, String id) {
-    	try {
-		    img = ImageIO.read(new File("7-20.png"));
-		} catch (IOException e) {
-		    System.out.println("error");
-		}
-    	
         return new MarsChunkGenerator();
     }
 }
