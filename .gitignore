@@ -3,5 +3,7 @@
 server/world*/
 logs/
 .metadata/
+.recommenders/
+crash-reports/
 bin/
 MarsSpoon.jar
