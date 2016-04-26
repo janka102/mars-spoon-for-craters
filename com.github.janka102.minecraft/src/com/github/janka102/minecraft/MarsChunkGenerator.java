@@ -12,6 +12,7 @@ public class MarsChunkGenerator extends ChunkGenerator {
 	public ChunkGenerator.ChunkData generateChunkData(World world, Random random, int x, int z, ChunkGenerator.BiomeGrid biome) {
 		ChunkGenerator.ChunkData chunkData = createChunkData(world);
 		
+		// x and z wraps around to the other side for negative values
 		if (x < 0) {
 			x += 1024;
 		}
@@ -25,8 +26,6 @@ public class MarsChunkGenerator extends ChunkGenerator {
 		if (MarsSpoon.tiles[imgZ][imgX] == null) {
 			MarsSpoon.loadTile(imgZ, imgX);
 		}
-		// code needs to be modified to use imgX and imgY.
-		// negative values should "wrap around" to the opposite side of the image
 		
 		BufferedImage tile = MarsSpoon.tiles[imgZ][imgX];
 
@@ -35,10 +34,11 @@ public class MarsChunkGenerator extends ChunkGenerator {
 		int absZ = imgZ * 256;
 		
 		int height;
+		int pixel[] = new int[4];
 
 		for (int i = 0; i < 16; i++) {
 			for (int j = 0; j < 16; j++) {
-				height = tile.getRaster().getPixel(offsetX + i, offsetZ + j, new int[4])[0];
+				height = tile.getRaster().getPixel(offsetX + i, offsetZ + j, pixel)[3]; // Alpha bit
 				chunkData.setRegion(i, 0, j, i + 1, height, j + 1, Material.STAINED_CLAY);
 				
 				if (imgZ < 2 && random.nextInt(512) > (absZ + offsetZ + j)) {
