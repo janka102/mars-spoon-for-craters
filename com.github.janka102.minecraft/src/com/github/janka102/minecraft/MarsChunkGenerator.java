@@ -6,6 +6,7 @@ import java.util.Random;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.generator.ChunkGenerator;
+import org.bukkit.inventory.ItemStack;
 
 public class MarsChunkGenerator extends ChunkGenerator {	
 	@Override
@@ -38,11 +39,11 @@ public class MarsChunkGenerator extends ChunkGenerator {
 
 		for (int i = 0; i < 16; i++) {
 			for (int j = 0; j < 16; j++) {
-				height = tile.getRaster().getPixel(offsetX + i, offsetZ + j, pixel)[3]; // Alpha bit
-				chunkData.setRegion(i, 0, j, i + 1, height, j + 1, Material.STAINED_CLAY);
+				height = tile.getRaster().getPixel(offsetX + i, offsetZ + j, pixel)[3] / 2 + 72; // Alpha bit
+				chunkData.setRegion(i, 0, j, i + 1, height, j + 1, new ItemStack(Material.STAINED_CLAY, 1, (short) 1).getData());
 				
 				if (imgZ < 2 && random.nextInt(512) > (absZ + offsetZ + j)) {
-					chunkData.setBlock(i, height, j, Material.SNOW);
+					chunkData.setBlock(i, height - 1, j, Material.PACKED_ICE);
 				}
 			}
 		}
