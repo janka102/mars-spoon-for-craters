@@ -9,10 +9,8 @@ import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.inventory.ItemStack;
 
 public class MarsChunkGenerator extends ChunkGenerator {	
-	static int[][] blocks ={{209, 178, 162},{160, 83, 43},{148, 88, 108},
-			{113, 109, 137},{185, 132, 47},{103, 116, 56},{160, 79, 80},
-			{58, 42, 36},{134, 107, 98},{86, 90, 91},{117, 71, 86},{74, 60, 90},
-			{76, 51, 36},{76, 82, 44},{142, 61, 50},{37, 23, 16},{126, 148, 183}};
+	static int[][] blocks ={{160, 83, 43, 1},{185, 132, 47, 4},{160, 79, 80, 6}, {58, 42, 36, 7},
+			{134, 107, 98, 8},{86, 90, 91, 9}, {76, 51, 36, 12},{142, 61, 50, 14},{37, 23, 16, 15},{126, 148, 183, 16}};
 	
 	@Override
 	public ChunkGenerator.ChunkData generateChunkData(World world, Random random, int x, int z, ChunkGenerator.BiomeGrid biome) {
@@ -62,13 +60,14 @@ public class MarsChunkGenerator extends ChunkGenerator {
 	}
 	
 	public static short closestBlock(int r, int g, int b) {
-		short min = 0;
-		double minVal = 256;
+		// blocks[i][3] refers to the id of stain - except for 16, which refers to packed ice
+		short min = -1;
+		double minVal = Double.MAX_VALUE;
 		double current;
-		for (int i = 1; i < blocks.length; i++) {
+		for (int i = 0; i < blocks.length; i++) {
 			current = colorDist(r, g, b, blocks[i][0], blocks[i][1], blocks[i][2]);
 			if (current < minVal) {
-				min = (short) i;
+				min = (short) blocks[i][3];
 				minVal = current;
 			}
 		}
