@@ -7,3 +7,4 @@ logs/
 crash-reports/
 bin/
 MarsSpoon.jar
+usercache.json

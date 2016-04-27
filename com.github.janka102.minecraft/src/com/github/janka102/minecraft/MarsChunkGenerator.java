@@ -9,6 +9,11 @@ import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.inventory.ItemStack;
 
 public class MarsChunkGenerator extends ChunkGenerator {	
+	static int[][] blocks ={{209, 178, 162},{160, 83, 43},{148, 88, 108},
+			{113, 109, 137},{185, 132, 47},{103, 116, 56},{160, 79, 80},
+			{58, 42, 36},{134, 107, 98},{86, 90, 91},{117, 71, 86},{74, 60, 90},
+			{76, 51, 36},{76, 82, 44},{142, 61, 50},{37, 23, 16},{126, 148, 183}};
+	
 	@Override
 	public ChunkGenerator.ChunkData generateChunkData(World world, Random random, int x, int z, ChunkGenerator.BiomeGrid biome) {
 		ChunkGenerator.ChunkData chunkData = createChunkData(world);
@@ -32,22 +37,42 @@ public class MarsChunkGenerator extends ChunkGenerator {
 
 		int offsetX = Math.abs(x * 16) % 256;
 		int offsetZ = Math.abs(z * 16) % 256;
-		int absZ = imgZ * 256;
 		
 		int height;
 		int pixel[] = new int[4];
+		short closest;
 
 		for (int i = 0; i < 16; i++) {
 			for (int j = 0; j < 16; j++) {
-				height = tile.getRaster().getPixel(offsetX + i, offsetZ + j, pixel)[3] / 2 + 72; // Alpha bit
-				chunkData.setRegion(i, 0, j, i + 1, height, j + 1, new ItemStack(Material.STAINED_CLAY, 1, (short) 1).getData());
-				
-				if (imgZ < 2 && random.nextInt(512) > (absZ + offsetZ + j)) {
-					chunkData.setBlock(i, height - 1, j, Material.PACKED_ICE);
-				}
+				pixel = tile.getRaster().getPixel(offsetX + i, offsetZ + j, pixel);
+				height = pixel[3] / 2 + 72; // Alpha bit
+				closest = closestBlock(pixel[0], pixel[1], pixel[2]);
+				if (closest != 16)
+					chunkData.setRegion(i, 0, j, i + 1, height, j + 1, new ItemStack(Material.STAINED_CLAY, 1, (short) closest).getData());
+				else
+					chunkData.setRegion(i, 0, j, i + 1, height, j + 1, new ItemStack(Material.PACKED_ICE).getData());
 			}
 		}
 		
 		return chunkData;
+	}
+	
+	public static double colorDist(double r1, double g1, double b1, double r2, double g2, double b2) {
+		return Math.pow(Math.pow(r1 - r2, 2) + Math.pow(g1 - g2, 2) + Math.pow(b1 - b2, 2), 0.5);
+	}
+	
+	public static short closestBlock(int r, int g, int b) {
+		short min = 0;
+		double minVal = 256;
+		double current;
+		for (int i = 1; i < blocks.length; i++) {
+			current = colorDist(r, g, b, blocks[i][0], blocks[i][1], blocks[i][2]);
+			if (current < minVal) {
+				min = (short) i;
+				minVal = current;
+			}
+		}
+		
+		return min;
 	}
 }
