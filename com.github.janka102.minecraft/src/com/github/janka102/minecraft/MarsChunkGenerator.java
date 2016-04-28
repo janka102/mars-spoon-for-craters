@@ -3,6 +3,7 @@ package com.github.janka102.minecraft;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.generator.ChunkGenerator;
@@ -57,10 +58,23 @@ public class MarsChunkGenerator extends ChunkGenerator {
 				}
 			}
 		}
-		
+
+		// Set bottom to bedrock so no one can dig through
+		chunkData.setRegion(0, 0, 0, 16, 1, 16, Material.BEDROCK);
+
 		return chunkData;
 	}
-	
+
+	@Override
+	public Location getFixedSpawnLocation(World world, Random random) {
+		// Start at Olympus Mons
+		int x = 2368;
+		int z = 3459;
+		int y = world.getHighestBlockYAt(x, z);
+
+		return new Location(world, x, y, z);
+	}
+
 	public static double colorDist(double r1, double g1, double b1, double r2, double g2, double b2) {
 		return Math.pow(Math.pow(r1 - r2, 2) + Math.pow(g1 - g2, 2) + Math.pow(b1 - b2, 2), 0.5);
 	}
