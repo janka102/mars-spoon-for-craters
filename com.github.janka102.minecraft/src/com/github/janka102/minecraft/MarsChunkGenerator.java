@@ -9,8 +9,8 @@ import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.inventory.ItemStack;
 
 public class MarsChunkGenerator extends ChunkGenerator {	
-	static int[][] blocks ={{160, 83, 43, 1},{185, 132, 47, 4},{160, 79, 80, 6}, {58, 42, 36, 7},
-			{134, 107, 98, 8},{86, 90, 91, 9}, {76, 51, 36, 12},{142, 61, 50, 14},{37, 23, 16, 15},{126, 148, 183, 16}};
+	static int[][] blocks ={{160, 83, 43, 1},{148, 88, 108,2},{185, 132, 47, 4},{160, 79, 80, 6}, {58, 42, 36, 7},
+			{134, 107, 98, 8},{86, 90, 91, 9}, {117, 71, 86, 10}, {76, 51, 36, 12},{142, 61, 50, 14},{37, 23, 16, 15},{126, 148, 183, 16}};
 	
 	@Override
 	public ChunkGenerator.ChunkData generateChunkData(World world, Random random, int x, int z, ChunkGenerator.BiomeGrid biome) {
