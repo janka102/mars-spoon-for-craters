@@ -2,13 +2,13 @@
 <project name="MarsSpoon" default="build" basedir=".">
     <property name="target" value="1.8"/>
     <property name="source" value="1.8"/>
-	<path id="classpath">
-	    <pathelement location="bin"/>
-	    <pathelement location="lib/spigot-1.9.2.jar"/>
+    <path id="classpath">
+        <pathelement location="bin"/>
+        <pathelement location="lib/spigot-1.9.2.jar"/>
     </path>
 
     <target name="build" description="Create a jar for the project">
-    	<mkdir dir="bin"/>
+        <mkdir dir="bin"/>
         <javac debug="true" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
             <src path="src"/>
             <classpath refid="classpath"/>
@@ -20,7 +20,7 @@
             <fileset dir="lib/altimeter" includes="*.png" />
         </jar>
     </target>
-	
+
     <target name="clean">
         <delete dir="bin"/>
     </target>
