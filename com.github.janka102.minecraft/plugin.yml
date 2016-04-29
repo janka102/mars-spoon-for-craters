@@ -1,4 +1,4 @@
 main: com.github.janka102.minecraft.MarsSpoon
 name: MarsSpoon
-version: 0.2
+version: 0.3
 load: startup
